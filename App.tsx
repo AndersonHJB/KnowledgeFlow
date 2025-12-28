@@ -137,11 +137,11 @@ const App: React.FC = () => {
         </div>
       </nav>
 
-      {/* Main Content Area */}
-      <main className="flex-1 relative overflow-hidden flex flex-col">
+      {/* Main Content Area - Critical Fix: min-h-0 allows this container to shrink and scroll */}
+      <main className="flex-1 relative overflow-hidden flex flex-col min-h-0">
         {activeView === 'home' && (
-          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center animate-in fade-in slide-in-from-bottom duration-700">
-            <div className="max-w-xl w-full space-y-8">
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center animate-in fade-in slide-in-from-bottom duration-700 overflow-y-auto">
+            <div className="max-w-xl w-full space-y-8 py-12">
               <div className="relative inline-block">
                 <div className="absolute -inset-4 bg-blue-100 rounded-full blur-2xl opacity-50 animate-pulse" />
                 <Sparkles size={64} className="text-blue-600 relative" />
@@ -195,7 +195,7 @@ const App: React.FC = () => {
         )}
 
         {activeView === 'graph' && (
-          <div className="flex-1 p-4 md:p-8 animate-in fade-in duration-500">
+          <div className="flex-1 p-4 md:p-8 animate-in fade-in duration-500 min-h-0">
             <KnowledgeGraph 
               topic={topic} 
               nodes={nodes} 
@@ -205,8 +205,8 @@ const App: React.FC = () => {
         )}
 
         {activeView === 'summary' && (
-          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center animate-in zoom-in duration-500">
-            <div className="max-w-lg w-full bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl space-y-8 border-4 border-blue-50">
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center animate-in zoom-in duration-500 overflow-y-auto">
+            <div className="max-w-lg w-full bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl space-y-8 border-4 border-blue-50 my-12">
               <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto shadow-xl shadow-blue-200">
                 <TrophyIcon className="text-white" size={48} />
               </div>

@@ -46,9 +46,9 @@ const QuizModule: React.FC<QuizModuleProps> = ({ node, questions, onFinish, onCl
   const progress = ((currentIdx + 1) / questions.length) * 100;
 
   return (
-    <div className="fixed inset-0 bg-white z-50 flex flex-col md:p-6 lg:p-12 overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
+    <div className="fixed inset-0 bg-white z-50 flex flex-col overflow-hidden">
+      {/* Header - Fixed height */}
+      <div className="flex items-center justify-between p-4 border-b shrink-0 bg-white">
         <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500">
           <ArrowLeft size={24} />
         </button>
@@ -56,24 +56,24 @@ const QuizModule: React.FC<QuizModuleProps> = ({ node, questions, onFinish, onCl
           <h2 className="text-lg font-black text-gray-800">{node.label}</h2>
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">第 {currentIdx + 1} / {questions.length} 题</p>
         </div>
-        <div className="w-10 h-10 flex items-center justify-center bg-blue-50 rounded-xl text-blue-600 font-bold">
+        <div className="w-10 h-10 flex items-center justify-center bg-blue-50 rounded-xl text-blue-600 font-bold shrink-0">
           {Math.round(progress)}%
         </div>
       </div>
 
-      {/* Progress Bar */}
-      <div className="h-1.5 w-full bg-gray-100 relative">
+      {/* Progress Bar - Fixed height */}
+      <div className="h-1.5 w-full bg-gray-100 shrink-0">
         <div 
           className="h-full bg-blue-500 transition-all duration-500 ease-out" 
           style={{ width: `${progress}%` }} 
         />
       </div>
 
-      {/* Question Content */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-2xl mx-auto p-6 md:py-12 flex flex-col gap-8">
+      {/* Main Content Area - Scrollable */}
+      <div className="flex-1 overflow-y-auto min-h-0 bg-gray-50/20">
+        <div className="max-w-2xl mx-auto p-6 md:p-12 flex flex-col gap-8 pb-12">
           <div className="space-y-4">
-             <h3 className="text-2xl font-bold text-gray-800 leading-tight">
+             <h3 className="text-2xl md:text-3xl font-bold text-gray-800 leading-tight">
               {currentQuestion.text}
             </h3>
           </div>
@@ -89,7 +89,7 @@ const QuizModule: React.FC<QuizModuleProps> = ({ node, questions, onFinish, onCl
                 else if (isSelected && !isOptionCorrect) style = "bg-red-50 border-2 border-red-500 text-red-700 shadow-lg shadow-red-100 ring-2 ring-red-100";
                 else style = "bg-gray-50 border-2 border-transparent opacity-40 grayscale";
               } else if (isSelected) {
-                style = "bg-blue-50 border-2 border-blue-500 text-blue-700 shadow-xl shadow-blue-50 scale-[1.02]";
+                style = "bg-blue-50 border-2 border-blue-500 text-blue-700 shadow-xl shadow-blue-50 scale-[1.01]";
               }
 
               return (
@@ -98,9 +98,9 @@ const QuizModule: React.FC<QuizModuleProps> = ({ node, questions, onFinish, onCl
                   onClick={() => handleSelect(idx)}
                   className={`w-full p-5 rounded-2xl transition-all duration-200 text-left font-semibold flex items-center justify-between ${style}`}
                 >
-                  <span className="flex-1">{option}</span>
-                  {showExplanation && isOptionCorrect && <CheckCircle size={24} className="text-green-500" />}
-                  {showExplanation && isSelected && !isOptionCorrect && <XCircle size={24} className="text-red-500" />}
+                  <span className="flex-1 pr-4">{option}</span>
+                  {showExplanation && isOptionCorrect && <CheckCircle size={24} className="text-green-500 shrink-0" />}
+                  {showExplanation && isSelected && !isOptionCorrect && <XCircle size={24} className="text-red-500 shrink-0" />}
                 </button>
               );
             })}
@@ -116,14 +116,16 @@ const QuizModule: React.FC<QuizModuleProps> = ({ node, questions, onFinish, onCl
                   {isCorrect ? '完全正确！太厉害了' : '非常遗憾，但没关系！'}
                 </h4>
               </div>
-              <MarkdownRenderer content={currentQuestion.explanation} />
+              <div className="prose prose-sm max-w-none">
+                <MarkdownRenderer content={currentQuestion.explanation} />
+              </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Action Bar */}
-      <div className="p-4 border-t bg-white flex justify-center sticky bottom-0">
+      {/* Footer Action Bar - Fixed at bottom */}
+      <div className="p-4 md:p-6 border-t bg-white flex justify-center shrink-0 z-10 shadow-[0_-8px_30px_rgb(0,0,0,0.04)]">
         {!showExplanation ? (
           <button
             disabled={selectedIdx === null}
