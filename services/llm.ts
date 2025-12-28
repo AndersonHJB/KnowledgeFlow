@@ -63,10 +63,11 @@ export class LLMGateway {
 
   async generateGraph(topic: string, background: string): Promise<KnowledgeNode[]> {
     const prompt = `
-      基于主题 "${topic}" 和用户背景 "${background}"，生成一个由 6-8 个知识点组成的闯关式学习路径。
-      必须以纯 JSON 数组格式返回，包含字段: id (字符串), label (名称), description (简述), dependencies (前置节点id列表)。
-      第一个节点应该是最基础的，且 dependencies 为空数组。
-      确保 JSON 格式严谨，不要包含 Markdown 代码块标记。
+      基于主题 "${topic}" 和用户背景 "${background}"，生成一个树状结构的知识图谱（思维导图格式）。
+      必须以纯 JSON 数组格式返回，包含字段: id (字符串), label (名称), description (简述), parentId (父节点id，根节点为空), dependencies (前置解锁节点id列表)。
+      生成 8-12 个节点，确保层级关系清晰（根节点 -> 子节点 -> 孙节点）。
+      确保第一个根节点的 parentId 为 null，且 dependencies 为空。
+      不要包含 Markdown 代码块标记。
     `;
 
     try {

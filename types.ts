@@ -11,6 +11,7 @@ export interface KnowledgeNode {
   description: string;
   status: NodeStatus;
   stars: number;
+  parentId?: string;
   dependencies: string[];
 }
 
