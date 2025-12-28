@@ -12,6 +12,8 @@ export interface KnowledgeNode {
   status: NodeStatus;
   stars: number;
   parentId?: string;
+  type: 'root' | 'branch' | 'leaf';
+  level: number;
   dependencies: string[];
 }
 
@@ -23,21 +25,13 @@ export interface QuizQuestion {
   explanation: string;
 }
 
-export interface GraphData {
-  topic: string;
-  nodes: KnowledgeNode[];
-}
-
+// Fix: Changed interface to type as LLMProvider is a union of string literals
 export type LLMProvider = 'gemini' | 'openai' | 'ollama' | 'deepseek' | 'lmstudio';
 
 export interface LLMConfig {
   provider: LLMProvider;
   baseUrl?: string;
-  apiKey?: string; // For non-Gemini providers
+  apiKey?: string;
   model: string;
   temperature: number;
-}
-
-export interface UserProgress {
-  completedNodes: Record<string, { stars: number }>;
 }
